@@ -2,552 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Advanced Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
     }
 
     .container {
-      background: #fff;
-      width: 900px;
-      max-width: 100%;
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
       display: flex;
-      animation: slideIn 0.8s ease forwards;
+      height: 100vh;
     }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .left {
+    .image-section {
       flex: 1;
-      background: url('https://images.unsplash.com/photo-1502980426475-b83966705988?auto=format&fit=crop&w=900&q=80') no-repeat center center;
-      background-size: cover;
-      transition: transform 0.5s ease;
+      background: url('https://via.placeholder.com/600x800') center/cover no-repeat;
       position: relative;
     }
 
-    .left::after {
-      content: '';
+    .image-section::after {
+      content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(102,126,234,0.7), rgba(118,75,162,0.7));
-      mix-blend-mode: multiply;
-      transition: background 0.4s ease;
-      border-radius: 0 0 0 25px;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(128, 0, 128, 0.6); /* purple overlay */
     }
 
-    .left:hover {
-      transform: scale(1.07);
-    }
-
-    .right {
+    .form-section {
       flex: 1;
-      padding: 50px 40px;
+      background: white;
+      padding: 60px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     h2 {
-      font-weight: 600;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 20px;
       color: #333;
-      letter-spacing: 1.2px;
-      text-align: center;
     }
 
-    form {
+    form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"] {
       width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
-    .input-group {
-      position: relative;
-      margin-bottom: 1.8rem;
+    .checkbox {
+      margin-top: 20px;
     }
 
-    input {
+    .signup-btn {
+      margin-top: 20px;
+      padding: 12px;
       width: 100%;
-      padding: 15px 20px;
-      font-size: 1rem;
-      border-radius: 12px;
-      border: 2px solid #ddd;
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      font-weight: 500;
-      color: #333;
-      background: #fafafa;
-      box-shadow: inset 0 2px 5px rgb(0 0 0 / 0.05);
-    }
-
-    input::placeholder {
-      color: #bbb;
-      font-weight: 400;
-      transition: opacity 0.3s ease;
-    }
-
-    input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 10px rgba(102,126,234,0.6);
-      background: #fff;
-    }
-
-    input:focus::placeholder {
-      opacity: 0;
-    }
-
-    label {
-      position: absolute;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%);
-      font-size: 1rem;
-      color: #aaa;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      background: white;
-      padding: 0 6px;
-      border-radius: 6px;
-    }
-
-    input:focus + label,
-    input:not(:placeholder-shown) + label {
-      top: -10px;
-      left: 15px;
-      font-size: 0.8rem;
-      color: #667eea;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-    }
-
-    /* Password toggle */
-    .password-wrapper {
-      position: relative;
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: #667eea;
-      user-select: none;
-      transition: color 0.3s ease;
-      outline: none;
-    }
-
-    .toggle-password:hover {
-      color: #4c63d8;
-    }
-
-    /* Error and success messages */
-    .message {
-      font-size: 0.85rem;
-      margin-top: 6px;
-      font-weight: 500;
-      color: #e74c3c;
-      min-height: 18px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .message.active {
-      opacity: 1;
-    }
-
-    .message.success {
-      color: #27ae60;
-    }
-
-    /* Password strength meter */
-    .strength-meter {
-      height: 6px;
-      border-radius: 6px;
-      background: #eee;
-      margin-top: -12px;
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-
-    .strength-meter > div {
-      height: 100%;
-      width: 0%;
-      transition: width 0.4s ease;
-      border-radius: 6px;
-    }
-
-    .strength-weak {
-      background: #e74c3c;
-      width: 33%;
-    }
-
-    .strength-medium {
-      background: #f39c12;
-      width: 66%;
-    }
-
-    .strength-strong {
-      background: #27ae60;
-      width: 100%;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      background: #667eea;
+      background: linear-gradient(to right, #ff69b4, #800080);
       color: white;
-      font-size: 1.2rem;
-      font-weight: 700;
       border: none;
-      border-radius: 30px;
-      padding: 16px 0;
+      border-radius: 4px;
+      font-size: 16px;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
     }
 
-    button[type="submit"]:hover {
-      background: #5a67d8;
-      box-shadow: 0 10px 30px rgba(90, 103, 216, 0.6);
+    .signup-btn:hover {
+      opacity: 0.9;
     }
 
-    /* Ripple effect */
-    button[type="submit"]::after {
-      content: "";
-      position: absolute;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 50%;
-      width: 0;
-      height: 0;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s ease, height 0.4s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    button[type="submit"]:active::after {
-      width: 200px;
-      height: 200px;
-      transition: 0s;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        border-radius: 20px;
-      }
-
-      .left {
-        height: 280px;
-        border-radius: 20px 20px 0 0;
-      }
-
-      .right {
-        padding: 40px 30px;
-      }
-
-      form {
-        max-width: 100%;
-      }
+    .signin-link {
+      margin-top: 15px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="container" role="main" aria-label="Sign up form container">
-    <div class="left" aria-hidden="true"></div>
-
-    <div class="right">
+  <div class="container">
+    <div class="image-section"></div>
+    <div class="form-section">
       <h2>Sign Up</h2>
+      <form id="signup-form">
+        <label for="full-name">Full Name</label>
+        <input type="text" id="full-name" name="full-name" placeholder="Name..." required />
 
-      <form id="signupForm" novalidate aria-describedby="formInstructions">
-        <p id="formInstructions" style="margin-bottom: 20px; color:#555; font-size:0.9rem; text-align:center;">
-          Please fill in the details below to create your account.
-        </p>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Email address..." required />
 
-        <div class="input-group">
-          <input
-            type="text"
-            id="fullname"
-            name="fullname"
-            placeholder="Full Name"
-            autocomplete="name"
-            required
-            aria-describedby="fullnameError"
-            aria-invalid="false"
-          />
-          <label for="fullname">Full Name</label>
-          <div id="fullnameError" class="message" aria-live="polite"></div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username..." required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password..." required />
+
+        <label for="repeat-password">Repeat Password</label>
+        <input type="password" id="repeat-password" name="repeat-password" placeholder="Repeat Password..." required />
+
+        <div class="checkbox">
+          <input type="checkbox" id="terms" required />
+          <label for="terms">I agree to the Terms of Use</label>
         </div>
 
-        <div class="input-group">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            autocomplete="email"
-            required
-            aria-describedby="emailError"
-            aria-invalid="false"
-          />
-          <label for="email">Email</label>
-          <div id="emailError" class="message" aria-live="polite"></div>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Username"
-            autocomplete="username"
-            required
-            aria-describedby="usernameError"
-            aria-invalid="false"
-          />
-          <label for="username">Username</label>
-          <div id="usernameError" class="message" aria-live="polite"></div>
-        </div>
-
-        <div class="input-group password-wrapper">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            autocomplete="new-password"
-            required
-            aria-describedby="passwordError"
-            aria-invalid="false"
-          />
-          <label for="password">Password</label>
-          <button type="button" class="toggle-password" aria-label="Toggle password visibility" tabindex="-1">&#128065;</button>
-          <div id="passwordError" class="message" aria-live="polite"></div>
-          <div class="strength-meter" aria-hidden="true">
-            <div></div>
-          </div>
-        </div>
-
-        <div class="input-group password-wrapper">
-          <input
-            type="password"
-            id="repeatPassword"
-            name="repeatPassword"
-            placeholder="Repeat Password"
-            autocomplete="new-password"
-            required
-            aria-describedby="repeatPasswordError"
-            aria-invalid="false"
-          />
-          <label for="repeatPassword">Repeat Password</label>
-          <button type="button" class="toggle-password" aria-label="Toggle repeat password visibility" tabindex="-1">&#128065;</button>
-          <div id="repeatPasswordError" class="message" aria-live="polite"></div>
-        </div>
-
-        <button type="submit" aria-label="Submit Sign Up Form">Sign Up</button>
+        <button type="submit" class="signup-btn">Sign Up</button>
+        <p class="signin-link">Already have an account? #Sign in →</a></p>
       </form>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById('signupForm');
-    const fullname = form.fullname;
-    const email = form.email;
-    const username = form.username;
-    const password = form.password;
-    const repeatPassword = form.repeatPassword;
-
-    const fullnameError = document.getElementById('fullnameError');
-    const emailError = document.getElementById('emailError');
-    const usernameError = document.getElementById('usernameError');
-    const passwordError = document.getElementById('passwordError');
-    const repeatPasswordError = document.getElementById('repeatPasswordError');
-    const strengthMeter = password.parentElement.querySelector('.strength-meter > div');
-
-    // Show/hide password toggle
-    document.querySelectorAll('.toggle-password').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const input = btn.previousElementSibling;
-        if (input.type === 'password') {
-          input.type = 'text';
-          btn.innerHTML = '&#128068;'; // Open eye emoji
-          btn.setAttribute('aria-label', 'Hide password');
-        } else {
-          input.type = 'password';
-          btn.innerHTML = '&#128065;'; // Closed eye emoji
-          btn.setAttribute('aria-label', 'Show password');
-        }
-      });
-    });
-
-    // Validation functions
-    function validateFullname() {
-      const val = fullname.value.trim();
-      if (val.length < 3) {
-        setError(fullname, fullnameError, 'Full name must be at least 3 characters.');
-        return false;
-      }
-      setSuccess(fullname, fullnameError);
-      return true;
-    }
-
-    function validateEmail() {
-      const val = email.value.trim();
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!re.test(val)) {
-        setError(email, emailError, 'Please enter a valid email.');
-        return false;
-      }
-      setSuccess(email, emailError);
-      return true;
-    }
-
-    function validateUsername() {
-      const val = username.value.trim();
-      if (val.length < 4) {
-        setError(username, usernameError, 'Username must be at least 4 characters.');
-        return false;
-      }
-      setSuccess(username, usernameError);
-      return true;
-    }
-
-    function validatePassword() {
-      const val = password.value;
-      if (val.length < 6) {
-        setError(password, passwordError, 'Password must be at least 6 characters.');
-        updateStrengthMeter(0);
-        return false;
-      }
-      updateStrengthMeter(calculatePasswordStrength(val));
-      setSuccess(password, passwordError);
-      return true;
-    }
-
-    function validateRepeatPassword() {
-      const val = repeatPassword.value;
-      if (val !== password.value) {
-        setError(repeatPassword, repeatPasswordError, 'Passwords do not match.');
-        return false;
-      }
-      setSuccess(repeatPassword, repeatPasswordError);
-      return true;
-    }
-
-    function setError(input, errorElement, message) {
-      errorElement.textContent = message;
-      errorElement.classList.add('active');
-      input.setAttribute('aria-invalid', 'true');
-      input.style.borderColor = '#e74c3c';
-    }
-
-    function setSuccess(input, errorElement) {
-      errorElement.textContent = '';
-      errorElement.classList.remove('active');
-      input.setAttribute('aria-invalid', 'false');
-      input.style.borderColor = '#27ae60';
-    }
-
-    function calculatePasswordStrength(pw) {
-      let strength = 0;
-      if (pw.length > 5) strength++;
-      if (/[A-Z]/.test(pw)) strength++;
-      if (/[0-9]/.test(pw)) strength++;
-      if (/[\W]/.test(pw)) strength++;
-
-      if (strength >= 4) return 3; // strong
-      if (strength >= 2) return 2; // medium
-      if (strength >= 1) return 1; // weak
-      return 0;
-    }
-
-    function updateStrengthMeter(level) {
-      strengthMeter.className = '';
-      if (level === 1) {
-        strengthMeter.classList.add('strength-weak');
-      } else if (level === 2) {
-        strengthMeter.classList.add('strength-medium');
-      } else if (level === 3) {
-        strengthMeter.classList.add('strength-strong');
-      } else {
-        strengthMeter.style.width = '0%';
-      }
-    }
-
-    // Event listeners for real-time validation
-    fullname.addEventListener('input', validateFullname);
-    email.addEventListener('input', validateEmail);
-    username.addEventListener('input', validateUsername);
-    password.addEventListener('input', validatePassword);
-    repeatPassword.addEventListener('input', validateRepeatPassword);
-
-    form.addEventListener('submit', e => {
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      let isValid =
-        validateFullname() &
-        validateEmail() &
-        validateUsername() &
-        validatePassword() &
-        validateRepeatPassword();
+      const password = document.getElementById('password').value;
+      const repeatPassword = document.getElementById('repeat-password').value;
 
-      if (isValid) {
-        alert('Sign up successful! 🎉');
-        form.reset();
-        updateStrengthMeter(0);
-        resetInputStyles();
-      } else {
-        alert('Please fix the errors in the form before submitting.');
+      if (password !== repeatPassword) {
+        alert('Passwords do not match!');
+        return;
       }
-    });
 
-    function resetInputStyles() {
-      [fullname, email, username, password, repeatPassword].forEach(input => {
-        input.style.borderColor = '#ddd';
-        input.setAttribute('aria-invalid', 'false');
-      });
-      [fullnameError, emailError, usernameError, passwordError, repeatPasswordError].forEach(el => {
-        el.textContent = '';
-        el.classList.remove('active');
-      });
-    }
+      alert('Sign-up successful!');
+    });
   </script>
 </body>
-  </html>
+</html>
